@@ -14,10 +14,19 @@ namespace PizzaShop.Middleware
         public async Task InvokeAsync(HttpContext context)
         {
             var sw = Stopwatch.StartNew();
-            await _next(context);
-            sw.Stop();
-
-            Console.WriteLine($"{context.Request.Method} {context.Request.Path} -> {context.Response.StatusCode} ({sw.Elapsed.TotalMilliseconds} ms)");
+            try
+            {
+                await _next(context);
+            }
+            finally
+            {
+                sw.Stop();
+                Console.WriteLine(
+                                $"{context.Request.Method} " +
+                                $"{context.Request.Path} -> " +
+                                $"{context.Response.StatusCode} " +
+                                $"({sw.Elapsed.TotalMilliseconds} ms)");
+            }
         }
     }
 }

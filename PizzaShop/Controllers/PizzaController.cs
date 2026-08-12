@@ -36,5 +36,11 @@ namespace PizzaShop.Controllers
         {
             return Ok("Status OK");
         }
+
+        [HttpGet("pizzas/error")]
+        public IActionResult ErrorTest()
+        {
+            throw new Exception("Test exception");
+        }
     }
 }

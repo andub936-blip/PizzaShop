@@ -8,5 +8,10 @@ namespace PizzaShop.Extensions
         {
             return builder.UseMiddleware<RequestTimingMiddleware>();
         }
+
+        public static IApplicationBuilder UseExceptionHandling(this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<ExceptionHandlingMiddleware>();
+        }
     }
 }
