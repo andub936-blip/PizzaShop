@@ -1,0 +1,16 @@
+﻿@using PizzaShop.Domain.Model;
+@{
+    ViewData["Title"] = "Catalog";
+}
+<h1>@ViewData["Title"]</h1>
+<br />
+
+@{
+    var pizzas = (List<Pizza>)ViewData["PizzaList"];
+    foreach (Pizza pizza in pizzas)
+    {
+        <p>@pizza.Name</p>
+    }
+}
+
+
