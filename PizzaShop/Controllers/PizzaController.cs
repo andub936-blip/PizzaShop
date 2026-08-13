@@ -1,20 +1,21 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PizzaShop.Domain.Model;
+using PizzaShop.Domain.Interfaces;
 
 namespace PizzaShop.Controllers
 {
     public class PizzaController : Controller
     {
-        private List<Pizza> _pizzas = new()
+        private readonly IPizzaService _pizzaService;
+
+        public PizzaController(IPizzaService pizzaService)
         {
-            new Pizza { Id = 1, Name = "Margherita", Price = 15.12m, Description = "Pizza with tomatoes, mozzarella, basil, extra virgin olive oil" },
-            new Pizza { Id = 2, Name = "Pepperoni", Price = 12.99m, Description = "Pizza with pepperoni and mozzarella" },
-            new Pizza { Id = 3, Name = "Four Cheese", Price = 15.12m, Description = "Pizza with Mozzarella, Gorgonzola, Fontina, Parmesan" }
-        };
+            _pizzaService = pizzaService;
+        }
+
         [HttpGet("pizzas")]
         public IActionResult Index()
         {
-            ViewData["PizzaList"] = _pizzas;
+            ViewData["PizzaList"] = _pizzaService.GetAll();
 
             return View();
         }
@@ -22,7 +23,7 @@ namespace PizzaShop.Controllers
         [HttpGet("pizzas/{id}")]
         public IActionResult Details(int id)
         {
-            var pizza = _pizzas.FirstOrDefault(p => p.Id == id);
+            var pizza = _pizzaService.GetById(id);
 
             if (pizza is null) return NotFound();
 
@@ -41,6 +42,37 @@ namespace PizzaShop.Controllers
         public IActionResult ErrorTest()
         {
             throw new Exception("Test exception");
+        }
+
+        [HttpGet("pizzas/price")]
+        public IActionResult GetByMinPrice(decimal price)
+        {
+            var pizzas = _pizzaService.GetByMinPrice(price);
+            Console.WriteLine("Service returned");
+            foreach(var p in pizzas)
+            {
+                Console.WriteLine(p.Name);
+            }
+
+            //ViewData["PizzaList"] = pizzas.ToList();
+
+            //return View("Index");
+
+            return Ok();  // возвращаю временный результат, чтобы провести эксперимент, в будущем будет вывод списка пицц, удовлетворяющих условию
+        }
+
+        [HttpGet("pizzas/search")]
+        public IActionResult Search(string name)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return BadRequest();
+            }
+
+            var pizzas = _pizzaService.GetByName(name);
+            ViewData["PizzaList"] = pizzas.ToList();
+
+            return View("Index");
         }
     }
 }

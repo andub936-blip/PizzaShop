@@ -1,9 +1,12 @@
+using PizzaShop.Domain.Interfaces;
+using PizzaShop.Services;
 using PizzaShop.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddScoped<IPizzaService, PizzaService>();
 
 var app = builder.Build();
 
