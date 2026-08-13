@@ -13,17 +13,17 @@ namespace PizzaShop.Controllers
         }
 
         [HttpGet("pizzas")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            ViewData["PizzaList"] = _pizzaService.GetAll();
+            ViewData["PizzaList"] = await _pizzaService.GetAllAsync();
 
             return View();
         }
 
         [HttpGet("pizzas/{id}")]
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            var pizza = _pizzaService.GetById(id);
+            var pizza = await _pizzaService.GetByIdAsync(id);
 
             if (pizza is null) return NotFound();
 
@@ -45,31 +45,24 @@ namespace PizzaShop.Controllers
         }
 
         [HttpGet("pizzas/price")]
-        public IActionResult GetByMinPrice(decimal price)
+        public async Task<IActionResult> GetByMinPrice(decimal price)
         {
-            var pizzas = _pizzaService.GetByMinPrice(price);
-            Console.WriteLine("Service returned");
-            foreach(var p in pizzas)
-            {
-                Console.WriteLine(p.Name);
-            }
+            var pizzas = await _pizzaService.GetByMinPriceAsync(price);
 
-            //ViewData["PizzaList"] = pizzas.ToList();
+            ViewData["PizzaList"] = pizzas.ToList();
 
-            //return View("Index");
-
-            return Ok();  // возвращаю временный результат, чтобы провести эксперимент, в будущем будет вывод списка пицц, удовлетворяющих условию
+            return View("Index");
         }
 
         [HttpGet("pizzas/search")]
-        public IActionResult Search(string name)
+        public async Task<IActionResult> Search(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
                 return BadRequest();
             }
 
-            var pizzas = _pizzaService.GetByName(name);
+            var pizzas = await _pizzaService.GetByNameAsync(name);
             ViewData["PizzaList"] = pizzas.ToList();
 
             return View("Index");

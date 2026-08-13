@@ -4,12 +4,12 @@ namespace PizzaShop.Domain.Interfaces
 {
     public interface IPizzaService
     {
-        IReadOnlyCollection<Pizza> GetAll();
+        Task<IReadOnlyCollection<Pizza>> GetAllAsync();
 
-        Pizza? GetById(int id);
+        Task<Pizza?> GetByIdAsync(int id);
 
-        IEnumerable<Pizza> GetByMinPrice(decimal price);
+        Task<IEnumerable<Pizza>> GetByMinPriceAsync(decimal price);
 
-        IEnumerable<Pizza> GetByName(string name);
+        Task<IEnumerable<Pizza>> GetByNameAsync(string name);
     }
 }

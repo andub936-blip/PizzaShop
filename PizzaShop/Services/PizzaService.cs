@@ -1,4 +1,6 @@
-﻿using PizzaShop.Domain.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using PizzaShop.Data;
+using PizzaShop.Domain.Interfaces;
 using PizzaShop.Domain.Model;
 
 namespace PizzaShop.Services
@@ -6,43 +8,42 @@ namespace PizzaShop.Services
     public class PizzaService : IPizzaService
     {
         private readonly ILogger<PizzaService> _logger;
-        private List<Pizza> _pizzas = new()
-        {
-            new Pizza { Id = 1, Name = "Margherita", Price = 15.12m, Description = "Pizza with tomatoes, mozzarella, basil, extra virgin olive oil" },
-            new Pizza { Id = 2, Name = "Pepperoni", Price = 12.99m, Description = "Pizza with pepperoni and mozzarella" },
-            new Pizza { Id = 3, Name = "Four Cheese", Price = 15.12m, Description = "Pizza with Mozzarella, Gorgonzola, Fontina, Parmesan" }
-        };
+        private readonly PizzaShopDbContext _dbContext;
 
-        public PizzaService(ILogger<PizzaService> logger)
+        public PizzaService(ILogger<PizzaService> logger, PizzaShopDbContext dbContext)
         {
             _logger = logger;
+            _dbContext = dbContext;
         }
 
-        public IReadOnlyCollection<Pizza> GetAll()
+        public async Task<IReadOnlyCollection<Pizza>> GetAllAsync()
         {
             _logger.LogInformation("Getting all pizzas");
-            return _pizzas.ToList();
+
+            return await _dbContext.Pizzas
+                .ToListAsync();
         }
 
-        public Pizza? GetById(int id)
+        public async Task<Pizza?> GetByIdAsync(int id)
         {
             _logger.LogInformation("Getting pizza with id {PizzaId}", id);
-            return _pizzas.FirstOrDefault(p => p.Id == id);
+
+            return await _dbContext.Pizzas
+                .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public IEnumerable<Pizza> GetByMinPrice(decimal price)
+        public async Task<IEnumerable<Pizza>> GetByMinPriceAsync(decimal price)
         {
-            Console.WriteLine("Creating query");
-
-            return _pizzas.Where(p => {
-                Console.WriteLine($"Checking {p.Name}");
-                return p.Price >= price;
-            });
+            return await _dbContext.Pizzas
+                .Where(p => p.Price >= price)
+                .ToListAsync();
         }
 
-        public IEnumerable<Pizza> GetByName(string name)
+        public async Task<IEnumerable<Pizza>> GetByNameAsync(string name)
         {
-            return _pizzas.Where(p => p.Name.Contains(name, StringComparison.OrdinalIgnoreCase));
+            return await _dbContext.Pizzas
+                .Where(p => p.Name.Contains(name, StringComparison.OrdinalIgnoreCase))
+                .ToListAsync();
         }
     }
 }
