@@ -9,11 +9,14 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IPizzaService, PizzaService>();
-builder.Services.AddDbContext<PizzaShopDbContext>(options =>
-{
-    var connectionString = builder.Configuration.GetConnectionString("PizzaShop");
-    options.UseSqlite(connectionString);
-});
+
+var connectionString = builder.Configuration.GetConnectionString("PizzaShop");
+builder.Services.AddDbContext<PizzaShopDbContext>(options => 
+    {
+        options.UseSqlite(connectionString);
+        options.LogTo(Console.WriteLine);
+    }
+);
 
 var app = builder.Build();
 

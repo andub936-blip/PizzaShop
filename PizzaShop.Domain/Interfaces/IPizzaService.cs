@@ -8,8 +8,8 @@ namespace PizzaShop.Domain.Interfaces
 
         Task<Pizza?> GetByIdAsync(int id);
 
-        Task<IEnumerable<Pizza>> GetByMinPriceAsync(decimal price);
+        Task<IReadOnlyCollection<Pizza>> GetByMinPriceAsync(decimal price);
 
-        Task<IEnumerable<Pizza>> GetByNameAsync(string name);
+        Task<IReadOnlyCollection<Pizza>> GetByNameAsync(string name);
     }
 }

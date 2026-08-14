@@ -49,7 +49,7 @@ namespace PizzaShop.Controllers
         {
             var pizzas = await _pizzaService.GetByMinPriceAsync(price);
 
-            ViewData["PizzaList"] = pizzas.ToList();
+            ViewData["PizzaList"] = pizzas;
 
             return View("Index");
         }
@@ -63,7 +63,7 @@ namespace PizzaShop.Controllers
             }
 
             var pizzas = await _pizzaService.GetByNameAsync(name);
-            ViewData["PizzaList"] = pizzas.ToList();
+            ViewData["PizzaList"] = pizzas;
 
             return View("Index");
         }

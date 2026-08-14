@@ -32,17 +32,17 @@ namespace PizzaShop.Services
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
 
-        public async Task<IEnumerable<Pizza>> GetByMinPriceAsync(decimal price)
+        public async Task<IReadOnlyCollection<Pizza>> GetByMinPriceAsync(decimal price)
         {
             return await _dbContext.Pizzas
                 .Where(p => p.Price >= price)
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Pizza>> GetByNameAsync(string name)
+        public async Task<IReadOnlyCollection<Pizza>> GetByNameAsync(string name)
         {
             return await _dbContext.Pizzas
-                .Where(p => p.Name.Contains(name, StringComparison.OrdinalIgnoreCase))
+                .Where(p => EF.Functions.Like(p.Name, $"{name}%"))
                 .ToListAsync();
         }
     }
