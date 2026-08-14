@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PizzaShop.Domain.Interfaces;
+using PizzaShop.ViewModels.PizzaVM;
 
 namespace PizzaShop.Controllers
 {
@@ -15,9 +16,10 @@ namespace PizzaShop.Controllers
         [HttpGet("pizzas")]
         public async Task<IActionResult> Index()
         {
-            ViewData["PizzaList"] = await _pizzaService.GetAllAsync();
+            var pizzas = await _pizzaService.GetAllAsync();
+            var viewModel = new PizzaListViewModel(pizzas);
 
-            return View();
+            return View(viewModel);
         }
 
         [HttpGet("pizzas/{id}")]
@@ -27,9 +29,9 @@ namespace PizzaShop.Controllers
 
             if (pizza is null) return NotFound();
 
-            ViewData["SelectedPizza"] = pizza;
+            var viewModel = new PizzaDetailsViewModel(pizza);
 
-            return View();
+            return View(viewModel);
         }
 
         [HttpGet("pizzas/status")]
@@ -49,9 +51,9 @@ namespace PizzaShop.Controllers
         {
             var pizzas = await _pizzaService.GetByMinPriceAsync(price);
 
-            ViewData["PizzaList"] = pizzas;
+            var viewModel = new PizzaListViewModel(pizzas);
 
-            return View("Index");
+            return View("Index", viewModel);
         }
 
         [HttpGet("pizzas/search")]
@@ -63,9 +65,9 @@ namespace PizzaShop.Controllers
             }
 
             var pizzas = await _pizzaService.GetByNameAsync(name);
-            ViewData["PizzaList"] = pizzas;
+            var viewModel = new PizzaListViewModel(pizzas);
 
-            return View("Index");
+            return View("Index", viewModel);
         }
     }
 }

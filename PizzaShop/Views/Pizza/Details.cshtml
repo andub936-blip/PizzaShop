@@ -1,10 +1,13 @@
 ﻿@using PizzaShop.Domain.Model;
+@using PizzaShop.ViewModels.PizzaVM;
+
+@model PizzaDetailsViewModel
 
 @{
-    var pizza = (Pizza)ViewData["SelectedPizza"];
-
-    <h1>@pizza.Name</h1>
-    <br />
-    <p>Price: @pizza.Price</p>
-    <p>Description: @pizza.Description</p>
+    var pizza = Model.Pizza;
 }
+
+<h1>@pizza.Name</h1>
+<br />
+<p>Price: @pizza.Price</p>
+<p>Description: @pizza.Description</p>

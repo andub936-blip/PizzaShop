@@ -1,16 +1,19 @@
-﻿@using PizzaShop.Domain.Model;
+﻿@using PizzaShop.ViewModels.PizzaVM
+
+@model PizzaListViewModel
+
 @{
     ViewData["Title"] = "Catalog";
 }
 <h1>@ViewData["Title"]</h1>
 <br />
 
-@{
-    var pizzas = (List<Pizza>)ViewData["PizzaList"];
-    foreach (Pizza pizza in pizzas)
-    {
-        <p>@pizza.Name</p>
-    }
+@foreach (var pizza in Model.Pizzas)
+{
+    <a asp-controller="Pizza"
+    asp-action="Details" 
+    asp-route-id="@pizza.Id">@pizza.Name</a>
+    <br />
 }
 
 
