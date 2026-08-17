@@ -1,13 +1,20 @@
-﻿@using PizzaShop.Domain.Model;
-@using PizzaShop.ViewModels.PizzaVM;
+﻿@using PizzaShop.ViewModels.PizzaVM
 
-@model PizzaDetailsViewModel
+@model PizzaDetailsViewModel 
+@{ 
+    var pizza = Model.Pizza; 
+} 
 
-@{
-    var pizza = Model.Pizza;
-}
+<h1>@pizza.Name</h1> 
+<br /> 
 
-<h1>@pizza.Name</h1>
-<br />
-<p>Price: @pizza.Price</p>
-<p>Description: @pizza.Description</p>
+<p>Price: @pizza.Price</p> 
+<p>Description: @pizza.Description</p> 
+<br /> 
+
+<form asp-controller="Cart" asp-action="Add" method="post"> 
+    <input type="hidden" name="PizzaId" value="@pizza.Id"/> 
+    <label for="quantity">Quantity</label> 
+    <input type="number" id="quantity" name="Quantity" value="1"/> 
+    <button type="submit"> Add To Cart </button> 
+</form>
