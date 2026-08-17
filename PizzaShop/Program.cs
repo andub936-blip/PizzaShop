@@ -9,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IPizzaService, PizzaService>();
+builder.Services.AddSession();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ICartService, CartService>();
 
 var connectionString = builder.Configuration.GetConnectionString("PizzaShop");
 builder.Services.AddDbContext<PizzaShopDbContext>(options => 
@@ -33,6 +36,7 @@ app.UseTiming();
 
 app.UseStaticFiles();
 app.UseRouting();
+app.UseSession();
 app.UseAuthorization();
 
 app.MapControllerRoute(
