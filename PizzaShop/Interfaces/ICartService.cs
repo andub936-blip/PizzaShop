@@ -10,5 +10,9 @@ namespace PizzaShop.Interfaces
         Cart GetCart();
 
         Task<CartViewModel> GetCartViewModelAsync();
+
+        void UpdateQuantity(int pizzaId, int quantity);
+
+        void Remove(int pizzaId);
     }
 }

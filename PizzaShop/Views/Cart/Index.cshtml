@@ -15,7 +15,35 @@ else
     {
         <p>@item.PizzaName</p>
         <p>Price: @item.Price</p>
-        <p>Quantity: @item.Quantity</p>
+        <form asp-controller="Cart"
+            asp-action="Update"
+            method="post">
+
+            <input type="hidden" 
+                name="PizzaId"
+                value=@item.PizzaId />
+            <input type="number"
+                name="Quantity"
+                value="@item.Quantity" 
+                min="1"
+                max="20" />
+
+            <button type="submit">
+                Update
+            </button>
+        </form>
+        <form asp-controller="Cart"
+            asp-action="Remove"
+            method="post">
+
+            <input type="hidden"
+                name="pizzaId"
+                value="@item.PizzaId" />
+
+            <button type="submit">
+                Remove
+            </button>
+        </form>
         <p>Total: @item.Total</p>
         <br />
     }

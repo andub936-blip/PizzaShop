@@ -20,13 +20,7 @@ namespace PizzaShop.Services
 
         public void Add(CartItem item)
         {
-            var session = _httpContextAccessor.HttpContext!.Session;
-
-            var json = session.GetString(CartKey);
-
-            var cart = json is null
-                ? new Cart()
-                : JsonSerializer.Deserialize<Cart>(json) ?? new Cart();
+            var cart = GetCart();
 
             var existingItem = cart.Items.FirstOrDefault(i => i.PizzaId == item.PizzaId);
 
@@ -38,19 +32,8 @@ namespace PizzaShop.Services
             {
                 existingItem.Quantity += item.Quantity;
             }
-            
-            session.SetString(CartKey, JsonSerializer.Serialize(cart));
-        }
 
-        public Cart GetCart()
-        {
-            var session = _httpContextAccessor.HttpContext!.Session;
-
-            var json = session.GetString(CartKey);
-
-            if (json is null) return new Cart();
-
-            return JsonSerializer.Deserialize<Cart>(json) ?? new Cart();
+            SaveCart(cart);
         }
 
         public async Task<CartViewModel> GetCartViewModelAsync()
@@ -76,6 +59,50 @@ namespace PizzaShop.Services
             {
                 Items = cartItems
             };
+        }
+
+        public void UpdateQuantity(int pizzaId, int quantity)
+        {
+            var cart = GetCart();
+            var item = cart.Items.FirstOrDefault(i => i.PizzaId == pizzaId);
+
+            if(item is null)
+            {
+                return;
+            }
+
+            item.Quantity = quantity;
+            SaveCart(cart);
+        }
+
+        public void Remove(int pizzaId)
+        {
+            var cart = GetCart();
+            var item = cart.Items.FirstOrDefault(i => i.PizzaId == pizzaId);
+
+            if (item is null)
+            {
+                return;
+            }
+
+            cart.Items.Remove(item);
+            SaveCart(cart);
+        }
+
+        public Cart GetCart()
+        {
+            var session = _httpContextAccessor.HttpContext!.Session;
+            var json = session.GetString(CartKey);
+
+            if (json is null) return new Cart();
+
+            return JsonSerializer.Deserialize<Cart>(json) ?? new Cart();
+        }
+
+        private void SaveCart(Cart cart)
+        {
+            var session = _httpContextAccessor.HttpContext!.Session;
+            session.SetString(CartKey, JsonSerializer.Serialize(cart));
         }
     }
 }

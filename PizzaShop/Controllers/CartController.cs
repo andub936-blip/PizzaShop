@@ -39,5 +39,27 @@ namespace PizzaShop.Controllers
 
             return RedirectToAction("Index", "Cart");
         }
+
+        [HttpPost("cart/update")]
+        public IActionResult Update(UpdateCartItemViewModel viewModel)
+        {
+            if(!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            _cartService.UpdateQuantity(viewModel.PizzaId, 
+                                        viewModel.Quantity);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost("cart/remove")]
+        public IActionResult Remove(int pizzaId)
+        {
+            _cartService.Remove(pizzaId);
+
+            return RedirectToAction("Index");
+        }
     }
 }
