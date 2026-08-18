@@ -1,0 +1,19 @@
+﻿@using PizzaShop.Domain.Model
+
+@model Cart
+
+<h1>Cart</h1>
+<br />
+
+@if (!Model.Items.Any())
+{
+    <p>Your cart is empty</p>
+}
+else
+{
+    foreach(var item in Model.Items)
+    {
+        <p>Pizza ID: @item.PizzaId</p>
+        <p>Quantity: @item.Quantity</p>
+    }
+}

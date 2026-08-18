@@ -13,6 +13,15 @@ namespace PizzaShop.Controllers
         {
             _cartService = cartService;
         }
+
+        [HttpGet("cart")]
+        public IActionResult Index()
+        {
+            var cart = _cartService.GetCart();
+
+            return View(cart);
+        }
+
         [HttpPost("cart/add")]
         public IActionResult Add([FromForm] AddToCartViewModel viewModel)
         {
@@ -28,7 +37,7 @@ namespace PizzaShop.Controllers
             };
             _cartService.Add(item);
 
-            return Ok(viewModel);
+            return RedirectToAction("Index", "Cart");
         }
     }
 }

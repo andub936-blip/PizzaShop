@@ -35,7 +35,7 @@ namespace PizzaShop.Services
                 existingItem.Quantity += item.Quantity;
             }
             
-            session?.SetString(CartKey, JsonSerializer.Serialize(cart));
+            session.SetString(CartKey, JsonSerializer.Serialize(cart));
         }
 
         public Cart GetCart()
