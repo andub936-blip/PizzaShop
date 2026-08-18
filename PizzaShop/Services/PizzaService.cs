@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PizzaShop.Data;
-using PizzaShop.Domain.Interfaces;
 using PizzaShop.Domain.Model;
+using PizzaShop.Interfaces;
 
 namespace PizzaShop.Services
 {
@@ -43,6 +43,13 @@ namespace PizzaShop.Services
         {
             return await _dbContext.Pizzas
                 .Where(p => EF.Functions.Like(p.Name, $"{name}%"))
+                .ToListAsync();
+        }
+
+        public async Task<IReadOnlyCollection<Pizza>> GetByIdsAsync(IEnumerable<int> pizzaIds)
+        {
+            return await _dbContext.Pizzas
+                .Where(p => pizzaIds.Contains(p.Id))
                 .ToListAsync();
         }
     }

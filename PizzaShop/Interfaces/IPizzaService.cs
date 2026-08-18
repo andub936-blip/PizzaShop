@@ -1,6 +1,6 @@
 ﻿using PizzaShop.Domain.Model;
 
-namespace PizzaShop.Domain.Interfaces
+namespace PizzaShop.Interfaces
 {
     public interface IPizzaService
     {
@@ -11,5 +11,7 @@ namespace PizzaShop.Domain.Interfaces
         Task<IReadOnlyCollection<Pizza>> GetByMinPriceAsync(decimal price);
 
         Task<IReadOnlyCollection<Pizza>> GetByNameAsync(string name);
+
+        Task<IReadOnlyCollection<Pizza>> GetByIdsAsync(IEnumerable<int> pizzaIds);
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PizzaShop.Domain.Interfaces;
+using PizzaShop.Interfaces;
 using PizzaShop.ViewModels.PizzaVM;
 
 namespace PizzaShop.Controllers

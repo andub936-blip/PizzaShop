@@ -1,6 +1,6 @@
-﻿@using PizzaShop.Domain.Model
+﻿@using PizzaShop.ViewModels.CartVM
 
-@model Cart
+@model CartViewModel
 
 <h1>Cart</h1>
 <br />
@@ -13,7 +13,13 @@ else
 {
     foreach(var item in Model.Items)
     {
-        <p>Pizza ID: @item.PizzaId</p>
+        <p>@item.PizzaName</p>
+        <p>Price: @item.Price</p>
         <p>Quantity: @item.Quantity</p>
+        <p>Total: @item.Total</p>
+        <br />
     }
 }
+
+<hr />
+<p>Total: @Model.Total</p>

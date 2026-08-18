@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using PizzaShop.Domain.Interfaces;
 using PizzaShop.ViewModels.CartVM;
 using PizzaShop.Domain.Model;
+using PizzaShop.Interfaces;
 
 namespace PizzaShop.Controllers
 {
@@ -15,11 +15,11 @@ namespace PizzaShop.Controllers
         }
 
         [HttpGet("cart")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var cart = _cartService.GetCart();
+            var viewModel = await _cartService.GetCartViewModelAsync();
 
-            return View(cart);
+            return View(viewModel);
         }
 
         [HttpPost("cart/add")]

@@ -1,8 +1,8 @@
-using PizzaShop.Domain.Interfaces;
 using PizzaShop.Services;
 using PizzaShop.Extensions;
 using Microsoft.EntityFrameworkCore;
 using PizzaShop.Data;
+using PizzaShop.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
