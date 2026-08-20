@@ -40,7 +40,11 @@ namespace PizzaShop.Services
         {
             var cart = GetCart();
 
-            var pizzaIds = cart.Items.Select(i => i.PizzaId);
+            var pizzaIds = cart.Items
+                .Select(i => i.PizzaId)
+                .Distinct()
+                .ToList();
+
             var pizzas = await _pizzaService.GetByIdsAsync(pizzaIds);
 
             var cartItems = cart.Items.Join(pizzas,
@@ -103,6 +107,12 @@ namespace PizzaShop.Services
         {
             var session = _httpContextAccessor.HttpContext!.Session;
             session.SetString(CartKey, JsonSerializer.Serialize(cart));
+        }
+
+        public void Clear()
+        {
+            var session = _httpContextAccessor.HttpContext!.Session;
+            session.Remove(CartKey);
         }
     }
 }

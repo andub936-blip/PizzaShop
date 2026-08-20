@@ -51,3 +51,12 @@ else
 
 <hr />
 <p>Total: @Model.Total</p>
+
+@if (Model.Items.Any())
+{
+    <a asp-controller="Checkout"
+       asp-action="Index">
+        Proceed to Checkout
+    </a>
+}
+

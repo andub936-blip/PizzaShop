@@ -14,5 +14,7 @@ namespace PizzaShop.Interfaces
         void UpdateQuantity(int pizzaId, int quantity);
 
         void Remove(int pizzaId);
+
+        void Clear();
     }
 }

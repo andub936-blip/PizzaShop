@@ -1,0 +1,29 @@
+﻿@using PizzaShop.Domain.Model
+
+@model Order
+
+<h1>Order Created</h1>
+<p>Your order has been accepted</p>
+<br />
+
+<p>Order number: @Model.Id</p>
+<p>Customer: @Model.CustomerName</p>
+<p>Address: @Model.Address</p>
+<br />
+<p>Items:</p>
+<br />
+@foreach (var item in Model.Items)
+{
+    <p>@item.PizzaName</p>
+    <p>Price: @item.Price</p>
+    <p>Quantity: @item.Quantity</p>
+    <p>Total: @item.Total</p>
+    <br />
+}
+<hr />
+<p>Total: @Model.Total</p>
+
+<a asp-controller="Pizza"
+    asp-action="Index" >
+    Return to catalog
+</a>

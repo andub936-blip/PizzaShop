@@ -1,0 +1,26 @@
+﻿@using PizzaShop.ViewModels.OrderVM
+
+@model CheckoutViewModel
+
+<div asp-validation-summary="All"></div>
+
+<form asp-controller="Checkout"
+      asp-action="Create"
+      method="post">
+
+      <div>
+        <label asp-for="CustomerName"></label>
+        <input asp-for="CustomerName" />
+        <span asp-validation-for="CustomerName"></span>
+      </div>
+
+      <div>
+        <label asp-for="Address"></label>
+        <input asp-for="Address" />
+        <span asp-validation-for="Address"></span>
+      </div>
+
+    <button type="submit" >
+        Place Order
+    </button>
+</form>

@@ -34,7 +34,18 @@ namespace PizzaShop.Data
                         Description = "Pizza with Mozzarella, Gorgonzola, Fontina, Parmesan"
                     },
                 });
+
+            modelBuilder.Entity<Order>()
+                .HasMany(o => o.Items)
+                .WithOne()
+                .HasForeignKey(i => i.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
+
         public DbSet<Pizza> Pizzas { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderItem> OrderItems { get; set; }
     }
 }
