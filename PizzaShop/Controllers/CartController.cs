@@ -2,6 +2,7 @@
 using PizzaShop.ViewModels.CartVM;
 using PizzaShop.Domain.Model;
 using PizzaShop.Interfaces;
+using PizzaShop.Domain.Enums;
 
 namespace PizzaShop.Controllers
 {
@@ -23,7 +24,7 @@ namespace PizzaShop.Controllers
         }
 
         [HttpPost("cart/add")]
-        public IActionResult Add([FromForm] AddToCartViewModel viewModel)
+        public async Task<IActionResult> Add([FromForm] AddToCartViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -35,9 +36,22 @@ namespace PizzaShop.Controllers
                 PizzaId = viewModel.PizzaId,
                 Quantity = viewModel.Quantity
             };
-            _cartService.Add(item);
+            var result = await _cartService.AddAsync(item);
 
-            return RedirectToAction("Index", "Cart");
+            switch (result)
+            {
+                case AddToCartResult.PizzaNotFound:
+                    TempData["Error"] = $"This pizza is no longer available.";
+                    return RedirectToAction("Index", "Pizza");
+                case AddToCartResult.QuantityLimitExceeded:
+                    TempData["Error"] = $"You cannot have more than 20 of the same pizza.";
+                    return RedirectToAction("Index", "Pizza");
+                case AddToCartResult.Success:
+                    TempData["Success"] = "Pizza added to cart.";
+                    return RedirectToAction("Index", "Cart");
+                default:
+                    throw new InvalidOperationException("Unknown add-to-cart result.");
+            }
         }
 
         [HttpPost("cart/update")]

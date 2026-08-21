@@ -1,4 +1,5 @@
-﻿using PizzaShop.Domain.Model;
+﻿using PizzaShop.Domain.Enums;
+using PizzaShop.Domain.Model;
 using PizzaShop.Interfaces;
 using PizzaShop.ViewModels.CartVM;
 using System.Text.Json;
@@ -18,8 +19,14 @@ namespace PizzaShop.Services
             _pizzaService = pizzaService;
         }
 
-        public void Add(CartItem item)
+        public async Task<AddToCartResult> AddAsync(CartItem item)
         {
+            var pizza = await _pizzaService.GetByIdAsync(item.PizzaId);
+            if(pizza is null)
+            {
+                return AddToCartResult.PizzaNotFound;
+            }
+
             var cart = GetCart();
 
             var existingItem = cart.Items.FirstOrDefault(i => i.PizzaId == item.PizzaId);
@@ -30,10 +37,16 @@ namespace PizzaShop.Services
             }
             else
             {
+                if(existingItem.Quantity + item.Quantity > 20)
+                {
+                    return AddToCartResult.QuantityLimitExceeded;
+                }
                 existingItem.Quantity += item.Quantity;
             }
 
             SaveCart(cart);
+
+            return AddToCartResult.Success;
         }
 
         public async Task<CartViewModel> GetCartViewModelAsync()
@@ -67,6 +80,11 @@ namespace PizzaShop.Services
 
         public void UpdateQuantity(int pizzaId, int quantity)
         {
+            if(quantity < 1 || quantity > 20)
+            {
+                return;
+            }
+
             var cart = GetCart();
             var item = cart.Items.FirstOrDefault(i => i.PizzaId == pizzaId);
 

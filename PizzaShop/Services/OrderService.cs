@@ -29,6 +29,11 @@ namespace PizzaShop.Services
                 throw new InvalidOperationException("Cannot create an order from an empty cart.");
             }
 
+            if(cart.Items.Any(i => i.Quantity < 1 || i.Quantity > 20))
+            {
+                throw new InvalidOperationException("Cart contains an invalid quantity.");
+            }
+
             var pizzaIds = cart.Items
                 .Select(i => i.PizzaId)
                 .Distinct()
