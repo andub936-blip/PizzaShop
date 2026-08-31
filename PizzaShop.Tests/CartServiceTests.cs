@@ -1,4 +1,5 @@
-﻿using Moq;
+﻿using Microsoft.AspNetCore.Http;
+using Moq;
 using PizzaShop.Domain.Enums;
 using PizzaShop.Domain.Model;
 using PizzaShop.Interfaces;
@@ -482,6 +483,92 @@ namespace PizzaShop.Tests
 
             // Assert
             Assert.Empty(viewModel.Items);
+        }
+
+        [Fact]
+        public async Task GetCartViewModelAsync_ValidCart_ReturnsCartViewModel()
+        {
+            // Arrange
+            var httpAccessor = TestHttpContext.CreateAccessor();
+            var pizzaService = new Mock<IPizzaService>();
+
+            pizzaService.Setup(
+                s => s.GetByIdAsync(1))
+                .ReturnsAsync(new Pizza
+                {
+                    Id = 1,
+                    Name = "Margherita",
+                    Price = 15.50m
+                });
+
+            pizzaService.Setup(
+                s => s.GetByIdAsync(2))
+                .ReturnsAsync(new Pizza
+                {
+                    Id = 2,
+                    Name = "Pepperoni",
+                    Price = 18.00m
+                });
+
+            pizzaService.Setup(
+                s => s.GetByIdsAsync(It.IsAny<IEnumerable<int>>()))
+                .ReturnsAsync(new[]
+                {
+                    new Pizza
+                    {
+                        Id = 1,
+                        Name = "Margherita",
+                        Price = 15.50m
+                    },
+                    new Pizza
+                    {
+                        Id = 2,
+                        Name = "Pepperoni",
+                        Price = 18.00m
+                    }
+                });
+
+            var cartService = new CartService(
+                httpAccessor,
+                pizzaService.Object);
+
+            await cartService.AddAsync(
+                new CartItem
+                {
+                    PizzaId = 1,
+                    Quantity = 2
+                });
+
+            await cartService.AddAsync(
+                new CartItem
+                {
+                    PizzaId = 2,
+                    Quantity = 3
+                });
+
+            // Act
+            var viewModel = await cartService.GetCartViewModelAsync();
+
+            // Assert
+            Assert.Equal(2, viewModel.Items.Count);
+
+            var margherita = Assert.Single(
+                viewModel.Items.Where(i => i.PizzaId == 1));
+
+            Assert.Equal("Margherita", margherita.PizzaName);
+            Assert.Equal(15.50m, margherita.Price);
+            Assert.Equal(2, margherita.Quantity);
+            Assert.Equal(31.00m, margherita.Total);
+
+            var pepperoni = Assert.Single(
+                viewModel.Items.Where(i => i.PizzaId == 2));
+
+            Assert.Equal("Pepperoni", pepperoni.PizzaName);
+            Assert.Equal(18.00m, pepperoni.Price);
+            Assert.Equal(3, pepperoni.Quantity);
+            Assert.Equal(54.00m, pepperoni.Total);
+
+            Assert.Equal(85.00m, viewModel.Total);
         }
     }
 }
