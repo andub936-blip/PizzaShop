@@ -3,15 +3,15 @@
 @model PizzaListViewModel
 
 @{
-    ViewData["Title"] = "Catalog";
+    ViewData["Title"] = "Pizza Shop";
 }
 <h1>@ViewData["Title"]</h1>
 <br />
 
-@foreach (var pizza in Model.Pizzas)
+@foreach (var item in Model.Items)
 {
     <a asp-controller="Pizza"
     asp-action="Details" 
-    asp-route-id="@pizza.Id">@pizza.Name</a>
+    asp-route-id="@item.PizzaId">@item.PizzaName</a>
     <br />
 }

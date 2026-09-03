@@ -1,16 +1,17 @@
 ﻿using PizzaShop.Domain.Model;
+using PizzaShop.ViewModels.PizzaVM;
 
 namespace PizzaShop.Interfaces
 {
     public interface IPizzaService
     {
-        Task<IReadOnlyCollection<Pizza>> GetAllAsync();
+        Task<PizzaListViewModel> GetPizzaListViewModelAsync();
 
         Task<Pizza?> GetByIdAsync(int id);
 
-        Task<IReadOnlyCollection<Pizza>> GetByMinPriceAsync(decimal price);
+        Task<IReadOnlyList<PizzaListItemViewModel>> GetByMinPriceAsync(decimal price);
 
-        Task<IReadOnlyCollection<Pizza>> GetByNameAsync(string name);
+        Task<IReadOnlyList<PizzaListItemViewModel>> GetByNameAsync(string name);
 
         Task<IReadOnlyCollection<Pizza>> GetByIdsAsync(IEnumerable<int> pizzaIds);
     }

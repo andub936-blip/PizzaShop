@@ -16,8 +16,7 @@ namespace PizzaShop.Controllers
         [HttpGet("pizzas")]
         public async Task<IActionResult> Index()
         {
-            var pizzas = await _pizzaService.GetAllAsync();
-            var viewModel = new PizzaListViewModel(pizzas);
+            var viewModel = await _pizzaService.GetPizzaListViewModelAsync();
 
             return View(viewModel);
         }
@@ -34,24 +33,15 @@ namespace PizzaShop.Controllers
             return View(viewModel);
         }
 
-        [HttpGet("pizzas/status")]
-        public IActionResult Status()
-        {
-            return Ok("Status OK");
-        }
-
-        [HttpGet("pizzas/error")]
-        public IActionResult ErrorTest()
-        {
-            throw new Exception("Test exception");
-        }
-
         [HttpGet("pizzas/price")]
         public async Task<IActionResult> GetByMinPrice(decimal price)
         {
-            var pizzas = await _pizzaService.GetByMinPriceAsync(price);
+            var items = await _pizzaService.GetByMinPriceAsync(price);
 
-            var viewModel = new PizzaListViewModel(pizzas);
+            var viewModel = new PizzaListViewModel
+            {
+                Items = items 
+            };
 
             return View("Index", viewModel);
         }
@@ -64,8 +54,11 @@ namespace PizzaShop.Controllers
                 return BadRequest();
             }
 
-            var pizzas = await _pizzaService.GetByNameAsync(name);
-            var viewModel = new PizzaListViewModel(pizzas);
+            var items = await _pizzaService.GetByNameAsync(name);
+            var viewModel = new PizzaListViewModel
+            {
+                Items = items
+            };
 
             return View("Index", viewModel);
         }

@@ -1,19 +1,16 @@
 ﻿@using PizzaShop.ViewModels.PizzaVM
 
 @model PizzaDetailsViewModel 
-@{ 
-    var pizza = Model.Pizza; 
-} 
 
-<h1>@pizza.Name</h1> 
+<h1>@Model.PizzaName</h1>
 <br /> 
 
-<p>Price: @pizza.Price</p> 
-<p>Description: @pizza.Description</p> 
+<p>Price: @Model.Price</p>
+<p>Description: @Model.Description</p>
 <br /> 
 
 <form asp-controller="Cart" asp-action="Add" method="post"> 
-    <input type="hidden" name="PizzaId" value="@pizza.Id"/> 
+    <input type="hidden" name="PizzaId" value="@Model.PizzaId" />
     <label for="quantity">Quantity</label> 
     <input type="number" id="quantity" name="Quantity" value="1"/> 
     <button type="submit"> Add To Cart </button> 
