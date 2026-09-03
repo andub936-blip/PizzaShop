@@ -7,6 +7,8 @@ namespace PizzaShop.Interfaces
     {
         Task<int> CreateOrderAsync(CheckoutViewModel viewModel);
 
-        Task<Order?> GetByIdAsync(int id);
+        Task<OrderDetailsViewModel?> GetByIdAsync(int id);
+
+        Task<OrderListViewModel> GetOrderListViewModelAsync();
     }
 }

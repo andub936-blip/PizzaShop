@@ -1,0 +1,21 @@
+﻿@using PizzaShop.ViewModels.OrderVM
+@model OrderDetailsViewModel
+
+<h1>Order №@Model.OrderId</h1>
+<hr />
+<p>Date: @Model.CreatedAt.ToString("dd.MM.yy HH:mm")</p>
+<p>Customer: @Model.CustomerName</p>
+<p>Address: @Model.Address</p>
+<br />
+@foreach(var item in Model.Items)
+{
+    <p>
+        <b>@item.PizzaName</b>
+        Price: @item.Price.ToString("C") 
+        Quantity: @item.Quantity
+        Total: @item.Total.ToString("C")
+    </p>
+}
+
+<hr />
+<h2>Total: @Model.Total.ToString("C")</h2>

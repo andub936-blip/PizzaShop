@@ -1,0 +1,25 @@
+﻿@using PizzaShop.ViewModels.OrderVM
+
+@model OrderListViewModel
+
+<h1>Orders History</h1>
+<hr />
+@if (!Model.Items.Any())
+{
+    <p>No orders</p>
+}
+else
+{
+    @foreach (var item in Model.Items)
+    {
+        <p>
+            Order №@item.OrderId<br />
+            @item.CreatedAt.ToString("dd.MM.yy HH:mm")<br />
+            @item.Total.ToString("C")<br />
+            <a asp-action="Details"
+               asp-route-id="@item.OrderId">details</a>
+        </p>
+        <br />
+    }
+}
+

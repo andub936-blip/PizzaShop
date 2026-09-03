@@ -383,7 +383,7 @@ namespace PizzaShop.Tests
             // Assert
             Assert.NotNull(result);
 
-            Assert.Equal(order.Id, result.Id);
+            Assert.Equal(order.Id, result.OrderId);
             Assert.Equal("John", result.CustomerName);
             Assert.Equal("Test Address", result.Address);
             Assert.Equal(31.00m, result.Total);

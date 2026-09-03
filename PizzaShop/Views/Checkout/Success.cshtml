@@ -1,12 +1,12 @@
-﻿@using PizzaShop.Domain.Model
+﻿@using PizzaShop.ViewModels.OrderVM
 
-@model Order
+@model OrderDetailsViewModel
 
 <h1>Order Created</h1>
 <p>Your order has been accepted</p>
 <br />
 
-<p>Order number: @Model.Id</p>
+<p>Order number: @Model.OrderId</p>
 <p>Customer: @Model.CustomerName</p>
 <p>Address: @Model.Address</p>
 <br />

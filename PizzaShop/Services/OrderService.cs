@@ -13,7 +13,7 @@ namespace PizzaShop.Services
         private readonly PizzaShopDbContext _dbContext;
 
         public OrderService(ICartService cartService,
-                            IPizzaService pizzaService, 
+                            IPizzaService pizzaService,
                             PizzaShopDbContext dbContext)
         {
             _cartService = cartService;
@@ -29,7 +29,7 @@ namespace PizzaShop.Services
                 throw new InvalidOperationException("Cannot create an order from an empty cart.");
             }
 
-            if(cart.Items.Any(i => i.Quantity < 1 || i.Quantity > 20))
+            if (cart.Items.Any(i => i.Quantity < 1 || i.Quantity > 20))
             {
                 throw new InvalidOperationException("Cart contains an invalid quantity.");
             }
@@ -41,7 +41,7 @@ namespace PizzaShop.Services
 
             var pizzas = await _pizzaService.GetByIdsAsync(pizzaIds);
 
-            if(pizzas.Count != pizzaIds.Count)
+            if (pizzas.Count != pizzaIds.Count)
             {
                 throw new InvalidOperationException("Some pizzas in the cart no longer exist.");
             }
@@ -74,13 +74,57 @@ namespace PizzaShop.Services
             return order.Id;
         }
 
-        public async Task<Order?> GetByIdAsync(int id)
+        public async Task<OrderDetailsViewModel?> GetByIdAsync(int id)
         {
             var order = await _dbContext.Orders
                 .Include(o => o.Items)
                 .FirstOrDefaultAsync(o => o.Id == id);
 
-            return order;
+            if (order is null)
+            {
+                return null;
+            }
+
+            var viewModel = new OrderDetailsViewModel
+            {
+                OrderId = order.Id,
+                CreatedAt = order.CreatedAt,
+                CustomerName = order.CustomerName,
+                Address = order.Address,
+                Total = order.Total,
+                Items = order.Items.Select(
+                    i => new OrderDetailsItemViewModel
+                    {
+                        PizzaId = i.PizzaId,
+                        PizzaName = i.PizzaName,
+                        Price = i.Price,
+                        Quantity = i.Quantity,
+                        Total = i.Total,
+                    })
+                .ToList()
+            };
+
+            return viewModel;
+        }
+
+        public async Task<OrderListViewModel> GetOrderListViewModelAsync()
+        {
+            var items =  await _dbContext.Orders
+                .Select(
+                i => new OrderListItemViewModel
+                {
+                    OrderId = i.Id,
+                    CreatedAt = i.CreatedAt,
+                    Total = i.Total
+                })
+                .OrderByDescending(o => o.CreatedAt)
+                .AsNoTracking()
+                .ToListAsync();
+
+            return new OrderListViewModel
+            {
+                Items = items
+            };
         }
     }
 }
