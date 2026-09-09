@@ -2,16 +2,41 @@
 
 @model PizzaListViewModel
 
-@{
-    ViewData["Title"] = "Pizza Shop";
-}
-<h1>@ViewData["Title"]</h1>
-<br />
-
-@foreach (var item in Model.Items)
-{
-    <a asp-controller="Pizza"
-    asp-action="Details" 
-    asp-route-id="@item.PizzaId">@item.PizzaName</a>
-    <br />
-}
+<main>
+    <section class="catalog">
+        <div class="container">
+            <header class="catalog-header">
+                <h1>Our Pizzas</h1>
+                <p>Choose your favourite pizza</p>
+            </header>
+            <div class="pizza-grid">
+                @foreach (var item in Model.Items)
+                {
+                    <article class="pizza-card">
+                        <img src="@item.ImageUrl" alt="@item.PizzaName" />
+                        <a asp-action="Details"
+                           asp-controller="Pizza"
+                           asp-route-id="@item.PizzaId">
+                            <h2 class="pizza-card-header">@item.PizzaName</h2>
+                        </a>
+                        <p class="pizza-card-description">@item.Description</p>
+                        <form class="pizza-card-footer"
+                              asp-action="Add"
+                              asp-controller="Cart"
+                              method="post">
+                            <p class="pizza-card-price">
+                                @item.Price.ToString("C")
+                            </p>
+                            <input type="hidden" name="PizzaId" value="@item.PizzaId" />
+                            <!-- Пока отправляю в корзину 1 пиццу, потом можно будет переделать -->
+                            <input type="hidden" name="Quantity" value="1" />
+                            <button class="pizza-card-add-button" type="submit">
+                                Add To Cart
+                            </button>
+                        </form>
+                    </article>
+                }
+            </div>
+        </div>
+    </section>
+</main>
