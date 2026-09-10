@@ -28,8 +28,18 @@ body {
     box-sizing: border-box;
 }
 
+
+/* Pizza Catalog */
+
 .catalog{
     margin: 10px 0;
+}
+
+.catalog-container {
+    max-width: 1200px;
+    width: 100%;
+    padding: 10px 20px;
+    margin: auto;
 }
 
 .catalog-header {
@@ -47,6 +57,12 @@ body {
     font-size: 20px;
     font-weight: 400;
     color: rgb(22, 102, 151);
+}
+
+.pizza-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
 }
 
 .pizza-card {
@@ -122,15 +138,114 @@ body {
     outline-offset: 2px;
 }
 
-.pizza-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
-}
 
-.catalog-container {
+/* Details */
+
+.details-container {
     max-width: 1200px;
     width: 100%;
     padding: 10px 20px;
     margin: auto;
+}
+
+.details-grid{
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+@media (min-width: 608px){
+    .details-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 48px;
+    }
+
+    .pizza-img {
+        grid-column-start: 1;
+        grid-column-end: 2;
+    }
+
+    .pizza-details {
+        grid-column-start: 2;
+        grid-column-end: 3;
+    }
+}
+
+.pizza-img{
+    min-width: 0;
+}
+
+.pizza-img img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.pizza-details-header {
+    font-size: 36px;
+    font-weight: 600;
+    color: rgb(22, 102, 151);
+}
+
+@media (min-width: 768px) {
+    .pizza-details-header {
+        font-size: 48px;
+    }
+}
+
+.pizza-details{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.pizza-details-description {
+    font-style: italic;
+}
+
+.pizza-details-price{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.details-quantity {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.pizza-details-add-button {
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgb(183, 182, 182);
+    padding: 5px 10px;
+    background-color: rgb(68, 156, 204);
+    color: rgb(248, 247, 247);
+    transition: background-color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.pizza-details-add-button:hover{
+    background-color: rgb(4, 121, 156);
+    box-shadow: 0 2px 4px rgb(153, 152, 152);
+}
+
+.pizza-details-add-button:focus-visible {
+    outline: 2px solid rgb(1, 4, 97);
+    outline-offset: 2px;
+}
+
+.details-back {
+    font-size: 18px;
+    text-decoration: none;
+}
+
+.details-back:hover{
+    color: rgb(2, 214, 247);
+    text-decoration: underline;
+}
+
+.details-back:focus-visible {
+    outline: 2px solid rgb(1, 4, 97);
+    outline-offset: 2px;
 }

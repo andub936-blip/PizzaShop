@@ -1,17 +1,37 @@
 ﻿@using PizzaShop.ViewModels.PizzaVM
 
-@model PizzaDetailsViewModel 
+@model PizzaDetailsViewModel
 
-<h1>@Model.PizzaName</h1>
-<br /> 
-
-<p>Price: @Model.Price</p>
-<p>Description: @Model.Description</p>
-<br /> 
-
-<form asp-controller="Cart" asp-action="Add" method="post"> 
-    <input type="hidden" name="PizzaId" value="@Model.PizzaId" />
-    <label for="quantity">Quantity</label> 
-    <input type="number" id="quantity" name="Quantity" value="1"/> 
-    <button type="submit"> Add To Cart </button> 
-</form>
+<div class="details-container">
+    <div class="details-grid">
+        <div class="pizza-img">
+            <img src="@Model.ImageUrl" alt="@Model.PizzaName" />
+        </div>
+        <div class="pizza-details">
+            <h1 class="pizza-details-header">@Model.PizzaName</h1>
+            <p class="pizza-details-description">@Model.Description</p>
+            <p class="pizza-details-price">@Model.Price.ToString("C")</p>
+            <form class="details-quantity"
+                  asp-action="Add"
+                  asp-controller="Cart"
+                  method="post">
+                <input type="hidden"
+                       name="PizzaId"
+                       value="@Model.PizzaId" />
+                <input type="number"
+                       name="Quantity"
+                       value="1"
+                       min="1"
+                       max="20" />
+                <button class="pizza-details-add-button">
+                    Add To Cart
+                </button>
+            </form>
+            <a class="details-back"
+                asp-action="Index"
+                asp-controller="Pizzas" >
+                Back To Pizzas
+            </a>
+        </div>
+    </div>
+</div>
