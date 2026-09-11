@@ -2,8 +2,7 @@
 {
     public class CartViewModel
     {
-        public IReadOnlyCollection<CartItemViewModel> Items { get; set; } 
-            = new List<CartItemViewModel>();
+        public IReadOnlyList<CartItemViewModel> Items { get; set; } = [];
 
         public decimal Total => Items.Sum(i => i.Total);
     }

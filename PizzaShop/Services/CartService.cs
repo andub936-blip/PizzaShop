@@ -68,7 +68,8 @@ namespace PizzaShop.Services
                     PizzaId = item.PizzaId,
                     PizzaName = pizza.Name,
                     Price = pizza.Price,
-                    Quantity = item.Quantity
+                    Quantity = item.Quantity,
+                    ImageUrl = pizza.ImageUrl
                 })
                 .ToList();
 

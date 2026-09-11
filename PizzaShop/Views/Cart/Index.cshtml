@@ -2,61 +2,127 @@
 
 @model CartViewModel
 
-<h1>Cart</h1>
-<br />
+<div class="cart-container">
+    <h1 class="cart-header">Cart</h1>
 
-@if (!Model.Items.Any())
-{
-    <p>Your cart is empty</p>
-}
-else
-{
-    foreach(var item in Model.Items)
+    @if (!Model.Items.Any())
     {
-        <p>@item.PizzaName</p>
-        <p>Price: @item.Price</p>
-        <form asp-controller="Cart"
-            asp-action="Update"
-            method="post">
-
-            <input type="hidden" 
-                name="PizzaId"
-                value=@item.PizzaId />
-            <input type="number"
-                name="Quantity"
-                value="@item.Quantity" 
-                min="1"
-                max="20" />
-
-            <button type="submit">
-                Update
-            </button>
-        </form>
-        <form asp-controller="Cart"
-            asp-action="Remove"
-            method="post">
-
-            <input type="hidden"
-                name="pizzaId"
-                value="@item.PizzaId" />
-
-            <button type="submit">
-                Remove
-            </button>
-        </form>
-        <p>Total: @item.Total</p>
-        <br />
+        <p>Your cart is empty</p>
+        <a asp-controller="Pizza"
+           asp-action="Index">
+            Browse Pizzas
+        </a>
     }
-}
+    else
+    {
+        foreach (var item in Model.Items)
+        {
+            <div class="cart-item">
+                <div class="cart-item-image">
+                    <img src="@item.ImageUrl" alt="@item.PizzaName" />
+                </div>
 
-<hr />
-<p>Total: @Model.Total</p>
+                <div class="cart-item-info">
+                    <h2>@item.PizzaName</h2>
+                    <p>Price: @item.Price.ToString("C")</p>
+                    <form class="cart-quantity-form"
+                          asp-controller="Cart"
+                          asp-action="Update"
+                          method="post">
 
-@if (Model.Items.Any())
-{
-    <a asp-controller="Checkout"
-       asp-action="Index">
-        Proceed to Checkout
-    </a>
-}
+                        <input type="hidden"
+                               name="PizzaId"
+                               value="@item.PizzaId" />
+
+                        <button type="button"
+                                class="cart-item-quantity-button"
+                                data-action="decrease"
+                                aria-label="Decrease quantity" >
+                            −
+                        </button>
+
+                        <label class="visually-hidden"
+                               for="quantity-@item.PizzaId">
+                            Quantity for @item.PizzaName
+                        </label>
+                        <input class="cart-item-quantity-input"
+                               id="quantity-@item.PizzaId"
+                               type="number"
+                               name="Quantity"
+                               value="@item.Quantity"
+                               min="1"
+                               max="20" />
+
+                        <button type="button"
+                                class="cart-item-quantity-button"
+                                data-action="increase"
+                                aria-label="Increase quantity" >
+                            +
+                        </button>
+
+                        <button class="cart-item-update-button" 
+                            type="submit" >
+                            Update
+                        </button>
+                    </form>
+                </div>
+
+                <div class="cart-item-actions">
+                    <p class="cart-item-total">Total: @item.Total.ToString("C")</p>
+                    <form asp-controller="Cart"
+                          asp-action="Remove"
+                          method="post">
+
+                        <input type="hidden"
+                               name="pizzaId"
+                               value="@item.PizzaId" />
+
+                        <button class="cart-item-remove-button"
+                                type="submit">
+                            Remove
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        }
+
+        <p class="cart-total">Total: @Model.Total.ToString("C")</p>
+
+        <div class="cart-footer">
+            <a asp-controller="Pizza"
+               asp-action="Index">
+                Continue Shopping
+            </a>
+            @if (Model.Items.Any())
+            {
+                <a asp-controller="Checkout"
+                   asp-action="Index">
+                    Proceed to Checkout
+                </a>
+            }
+        </div>
+    }
+</div>
+
+<script>
+    document.querySelectorAll(".cart-item-quantity-button")
+        .forEach(button => {
+            button.addEventListener("click", () => {
+                const form = button.closest(".cart-quantity-form");
+                const input = form.querySelector(".cart-item-quantity-input");
+
+                const currentValue = Number.parseInt(input.value, 10) || 1;
+
+                if (button.dataset.action === "increase") {
+                    input.value = Math.min(currentValue + 1, 20);
+                }
+
+                if (button.dataset.action === "decrease") {
+                    input.value = Math.max(currentValue - 1, 1);
+                }
+            });
+        });
+</script>
+
 

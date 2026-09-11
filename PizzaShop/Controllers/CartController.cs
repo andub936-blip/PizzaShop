@@ -55,7 +55,7 @@ namespace PizzaShop.Controllers
         }
 
         [HttpPost("cart/update")]
-        public IActionResult Update(UpdateCartItemViewModel viewModel)
+        public IActionResult Update([FromForm] UpdateCartItemViewModel viewModel)
         {
             if(!ModelState.IsValid)
             {
