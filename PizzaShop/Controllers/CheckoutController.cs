@@ -28,6 +28,7 @@ namespace PizzaShop.Controllers
         }
 
         [HttpPost("checkout")]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CheckoutViewModel viewModel)
         {
             if (!ModelState.IsValid)
@@ -35,9 +36,17 @@ namespace PizzaShop.Controllers
                 return View("Index", viewModel);
             }
 
-            var orderId = await _orderService.CreateOrderAsync(viewModel);
+            try
+            {
+                var orderId = await _orderService.CreateOrderAsync(viewModel);
 
-            return RedirectToAction("Success", new {Id = orderId });
+                return RedirectToAction("Success", new { id = orderId });
+            }
+            catch(InvalidOperationException ex)
+            {
+                ModelState.AddModelError(string.Empty, ex.Message);
+                return View("Index", viewModel);
+            }
         }
 
         [HttpGet("checkout/success/{id}")]

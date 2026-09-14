@@ -2,25 +2,51 @@
 
 @model CheckoutViewModel
 
-<div asp-validation-summary="All"></div>
+<div class="checkout-container">
+    <form class="checkout-form"
+            asp-controller="Checkout"
+          asp-action="Create"
+          method="post">
 
-<form asp-controller="Checkout"
-      asp-action="Create"
-      method="post">
+        @Html.AntiForgeryToken()
 
-      <div>
-        <label asp-for="CustomerName"></label>
-        <input asp-for="CustomerName" />
-        <span asp-validation-for="CustomerName"></span>
-      </div>
+        <h1 class="checkout-header">Checkout</h1>
 
-      <div>
-        <label asp-for="Address"></label>
-        <input asp-for="Address" />
-        <span asp-validation-for="Address"></span>
-      </div>
+        <p class="checkout-description">
+            Enter your details to place your order.
+        </p>
 
-    <button type="submit" >
-        Place Order
-    </button>
-</form>
+        <div asp-validation-summary="ModelOnly"></div>
+
+        <div class="checkout-info">
+            <label class="checkout-label"
+                    asp-for="CustomerName"></label>
+            <input class="checkout-input"
+                    asp-for="CustomerName"
+                   type="text"
+                   autocomplete="name" />
+            <span class="checkout-validation-info"
+                  asp-validation-for="CustomerName"></span>
+
+            <label class="checkout-label"
+                    asp-for="Address"></label>
+            <input class="checkout-input"
+                    asp-for="Address"
+                   type="text"
+                   autocomplete="street-address" />
+            <span class="checkout-validation-info"
+                  asp-validation-for="Address"></span>
+        </div>
+        <div class="checkout-action">
+            <a asp-action="Index"
+            asp-controller="Cart">
+                Back To Cart
+            </a>
+            <button class="place-order-button"
+                type="submit">
+                Place Order
+            </button>
+        </div>
+    </form>
+</div>
+

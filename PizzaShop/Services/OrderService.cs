@@ -11,17 +11,24 @@ namespace PizzaShop.Services
         private readonly ICartService _cartService;
         private readonly IPizzaService _pizzaService;
         private readonly PizzaShopDbContext _dbContext;
+        private readonly ILogger<OrderService> _logger;
 
         public OrderService(ICartService cartService,
                             IPizzaService pizzaService,
-                            PizzaShopDbContext dbContext)
+                            PizzaShopDbContext dbContext,
+                            ILogger<OrderService> logger)
         {
             _cartService = cartService;
             _pizzaService = pizzaService;
             _dbContext = dbContext;
+            _logger = logger;
         }
         public async Task<int> CreateOrderAsync(CheckoutViewModel viewModel)
         {
+            _logger.LogInformation(
+                "Creating order for customer {CustomerName}",
+                viewModel.CustomerName);
+
             var cart = _cartService.GetCart();
 
             if (!cart.Items.Any())
@@ -69,6 +76,10 @@ namespace PizzaShop.Services
             _dbContext.Orders.Add(order);
             await _dbContext.SaveChangesAsync();
 
+            _logger.LogInformation(
+                "Order {OrderId} created successfully",
+                order.Id);
+
             _cartService.Clear();
 
             return order.Id;
@@ -77,6 +88,7 @@ namespace PizzaShop.Services
         public async Task<OrderDetailsViewModel?> GetByIdAsync(int id)
         {
             var order = await _dbContext.Orders
+                .AsNoTracking()
                 .Include(o => o.Items)
                 .FirstOrDefaultAsync(o => o.Id == id);
 

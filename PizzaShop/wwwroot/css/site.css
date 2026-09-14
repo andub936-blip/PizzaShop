@@ -434,3 +434,127 @@ body {
     outline: 2px solid rgb(1, 4, 97);
     outline-offset: 2px;
 }
+
+
+/* Checkout */
+
+.checkout-container {
+    max-width: 900px;
+    width: 100%;
+    margin: auto;
+    padding: 40px 20px;
+}
+
+.checkout-form {
+    width: 100%;
+}
+
+.checkout-header{
+    text-align: center;
+}
+
+.checkout-description {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.checkout-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 40px;
+}
+
+.checkout-label {
+    font-weight: 600;
+}
+
+.checkout-input {
+    width: 100%;
+    min-height: 38px;
+    padding: 6px 10px;
+    border: 1px solid rgb(190, 190, 190);
+    border-radius: 4px;
+}
+
+.checkout-input:focus-visible {
+    outline: 2px solid rgb(1, 4, 97);
+    outline-offset: 2px;
+}
+
+.checkout-validation-info {
+    color: rgb(11, 170, 211);
+    overflow-wrap: anywhere;
+}
+
+@media (min-width: 768px) {
+    .checkout-info {
+        display: grid;
+        grid-template-columns:
+            minmax(120px, 1fr)
+            minmax(180px, 2fr)
+            minmax(150px, 1fr);
+        row-gap: 10px;
+        margin-bottom: 60px;
+    }
+
+    .checkout-label {
+        text-align: end;
+        padding: 0 20px;
+    }
+
+    .checkout-input {
+        grid-column: 2;
+    }
+
+    .checkout-validation-info {
+        grid-column: 3;
+        padding: 0 20px;
+    }
+}
+
+.checkout-action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 60px;
+    flex-wrap: wrap;
+}
+
+.place-order-button {
+    border: none;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgb(183, 182, 182);
+    padding: 10px 20px;
+    background-color: rgb(68, 156, 204);
+    color: rgb(248, 247, 247);
+    transition: background-color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+}
+
+.place-order-button:hover {
+    background-color: rgb(4, 121, 156);
+    box-shadow: 0 2px 4px rgb(153, 152, 152);
+}
+
+.place-order-button:focus-visible {
+    outline: 2px solid rgb(1, 4, 97);
+    outline-offset: 2px;
+}
+
+.checkout-action a {
+    font-size: 18px;
+    text-decoration: none;
+}
+
+.checkout-action a:hover {
+    color: rgb(2, 214, 247);
+    text-decoration: underline;
+}
+
+.checkout-action a:focus-visible {
+    outline: 2px solid rgb(1, 4, 97);
+    outline-offset: 2px;
+}
+
+
