@@ -52,14 +52,14 @@ namespace PizzaShop.Controllers
         [HttpGet("checkout/success/{id}")]
         public async Task<IActionResult> Success(int id)
         {
-            var order = await _orderService.GetByIdAsync(id);
+            var viewModel = await _orderService.GetByIdAsync(id);
 
-            if(order is null)
+            if(viewModel is null)
             {
                 return NotFound();
             }
 
-            return View(order);
+            return View(viewModel);
         }
     }
 }

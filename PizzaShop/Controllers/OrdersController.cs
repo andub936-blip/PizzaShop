@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PizzaShop.Interfaces;
-using PizzaShop.ViewModels.OrderVM;
 
 namespace PizzaShop.Controllers
 {

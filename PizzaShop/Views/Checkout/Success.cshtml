@@ -1,29 +1,90 @@
 ﻿@using PizzaShop.ViewModels.OrderVM
-
 @model OrderDetailsViewModel
 
-<h1>Order Created</h1>
-<p>Your order has been accepted</p>
-<br />
+<div class="success-container">
+    <section class="success-card" aria-labelledby="success-title">
+        <header class="success-header">
+            <h1 id="success-title">Order placed successfully!</h1>
+            <p>
+                Thank you for your order. We’ve received it and will start preparing it soon.
+            </p>
+        </header>
+        <section class="order-summary" aria-labelledby="order-summary-title">
+            <h2 id="order-summary-title">Order summary</h2>
 
-<p>Order number: @Model.OrderId</p>
-<p>Customer: @Model.CustomerName</p>
-<p>Address: @Model.Address</p>
-<br />
-<p>Items:</p>
-<br />
-@foreach (var item in Model.Items)
-{
-    <p>@item.PizzaName</p>
-    <p>Price: @item.Price</p>
-    <p>Quantity: @item.Quantity</p>
-    <p>Total: @item.Total</p>
-    <br />
-}
-<hr />
-<p>Total: @Model.Total</p>
+            <dl class="order-summary-list">
+                <div>
+                    <dt>Order number</dt>
+                    <dd>#@Model.OrderId</dd>
+                </div>
 
-<a asp-controller="Pizza"
-    asp-action="Index" >
-    Return to catalog
-</a>
+                <div>
+                    <dt>Created</dt>
+                    <dd>
+                        @Model.CreatedAt.ToLocalTime().ToString("dd.MM.yyyy HH:mm")
+                    </dd>
+                </div>
+
+                <div>
+                    <dt>Customer</dt>
+                    <dd>@Model.CustomerName</dd>
+                </div>
+
+                <div>
+                    <dt>Address</dt>
+                    <dd>@Model.Address</dd>
+                </div>
+            </dl>
+        </section>
+
+        <section class="order-items" aria-labelledby="order-items-title">
+            <h2 id="order-items-title">Your items</h2>
+
+            <div class="order-table-wrapper">
+                <table class="order-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Pizza</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (var item in Model.Items)
+                        {
+                            <tr>
+                                <th scope="row">@item.PizzaName</th>
+                                <td>@item.Price.ToString("C")</td>
+                                <td>@item.Quantity</td>
+                                <td>@item.Total.ToString("C")</td>
+                            </tr>
+                        }
+                    </tbody>
+
+                    <tfoot>
+                        <tr>
+                            <th scope="row" colspan="3">Order total</th>
+                            <td>@Model.Total.ToString("C")</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+        </section>
+
+        <div class="success-actions">
+            <a class="success-secondary-button"
+               asp-controller="Order"
+               asp-action="Index">
+                View my orders
+            </a>
+
+            <a class="success-primary-button"
+               asp-controller="Pizza"
+               asp-action="Index">
+                Return to catalog
+            </a>
+        </div>
+    </section>
+</div>

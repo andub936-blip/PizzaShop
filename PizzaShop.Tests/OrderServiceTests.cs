@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Moq;
 using PizzaShop.Data;
 using PizzaShop.Domain.Model;
@@ -16,10 +17,12 @@ namespace PizzaShop.Tests
         Mock<IPizzaService> pizzaService,
         PizzaShopDbContext dbContext)
         {
+            var logger = new Mock<ILogger<OrderService>>();
             return new OrderService(
                 cartService.Object,
                 pizzaService.Object,
-                dbContext);
+                dbContext,
+                logger.Object);
         }
 
         private static CheckoutViewModel CreateCheckout()
