@@ -1,7 +1,6 @@
 # PizzaShop
 
-Небольшой интернет-магазин пиццы, разработанный на ASP.NET Core MVC.
-Проект демонстрирует реализацию полного пользовательского сценария: просмотр каталога, просмотр деталей товара, добавление товаров в корзину, оформление заказа и просмотр истории заказов.
+A small online pizza store developed on ASP.NET Core MVC. The project demonstrates the implementation of a full user scenario: viewing the catalogue, viewing product details, adding products to the cart, placing an order and viewing the order history.
 
 ## Preview
 
@@ -9,18 +8,17 @@
 
 ## Features
 
-* Просмотр каталога пицц
-* Страница деталей пиццы
-* Добавление товаров в корзину
-* Изменение количества и удаление товаров
-* Хранение корзины в Session
-* Оформление заказа с валидацией формы
-* Сохранение заказов в базе данных
-* Просмотр созданного заказа
-* История заказов и страницы деталей заказа
-* Снимок названия и цены товара на момент оформления заказа
-* Обработка отсутствующих товаров и некорректных данных
-* Адаптивный интерфейс
+* Browse the pizza catalogue
+* Pizza Details Page
+* Adding items to your cart
+* Changing the quantity and deleting products
+* Storing the cart in the Session
+* Checkout with form validation
+* Saving orders in the database
+* View the created order
+* A snapshot of the name and price of the product at the time of ordering
+* Handling of missing items and incorrect data
+* Responsive Interface
 
 ## Tech Stack
 * C#
@@ -35,15 +33,15 @@
 
 ## Architecture
 
-Проект использует разделение ответственности между слоями:
+The project uses the division of responsibility between layers:
 
 Controller -> Service -> DbContext -> Database
 
 ## How to Run
 
-1. Клонируйте репозиторий.
-2. Откройте решение в Visual Studio или Rider.
-3. Запустите приложение.
+1. Clone the repository.
+2. Open the solution in Visual Studio or Rider.
+3. Launch the app.
 
 ## Screenshots
 
@@ -68,12 +66,8 @@ Controller -> Service -> DbContext -> Database
 
 ![Order mobile version](screenshots/success_mobile.png) 
 
-## Possible Improvements
+## Project Status
 
-* Авторизация пользователей
-* Раздел администратора
-* Управление каталогом
-* Интеграция оплаты
-* Более подробное покрытие тестами
-* Улучшение обработки ошибок и логирования
-* Разделение истории заказов по пользователям
+Completed educational portfolio project.
+Further improvements may include authentication, administration,
+payment integration and expanded test coverage.
